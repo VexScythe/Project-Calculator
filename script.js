@@ -1,62 +1,67 @@
-/*let firstNum = "2",
-    secondNum = "3",
-    operator = "";*/
+const currentNumber = document.querySelectorAll("#num");
+const operatorChoice = document.querySelectorAll("#operator");
+const equal = document.querySelector("#equal");
+const displayCurrentNumber = document.querySelector(".displaycurrent");
+const displayPastNumber = document.querySelector(".displaypast");
 
-class Operate {
-    constructor(calculator, userInput) {
-        this.calculator = calculator;
-        this.userInput = userInput;
-    }
+let calculator = {
+    currentNum: "",
+    previusNum: "",
+    operator: "",
     
-    performOperation(operator) {
-        const input = this.userInput.getInput();
-        switch (operator) {
-            case '+':
-                return this.calculator.add(input);
-            case '-':
-                return this.calculator.subtract(input);
-            case 'x':
-                return this.calculator.multiply(input);
-            case '/':
-                return this.calculator.divide(input);
-            default:
-                return "Invalid operator";
+    operate() {
+        switch(this.operator){
+            case "+": 
+                return Number(this.previusNum) + Number(this.currentNum);
+                break;
+            case "-":
+                return this.previusNum - this.currentNum;
+                break;
+            case "x":
+                return this.previusNum * this.currentNum;
+                break;
+            case "/":
+                if (this.currentNum !== 0){
+                    return parseFloat((this.previusNum / this.currentNum).toFixed(6));
+                }
+                return "error";
+                break;
+            }
+    },
+
+    handleNumber(num) {
+        if (calculator.currentNum.length <= 16){
+            this.currentNum += num;
+            console.log(calculator);
         }
-    }
-}
-    
-    
-class Calculator{
-    constructor(firstNumber, secondNumber){
-        this.firstNum = Number(firstNumber);
-        this.secondNum = Number(secondNumber);
-    }
+    },
 
-    add() {
-        return this.firstNum + this.secondNum;
-    }
+    handleOperator(chooseOperator) {
+        this.operator = chooseOperator;
+        this.previusNum = this.currentNum;
+        this.currentNum = "";
+        console.log(calculator)
+    },
+};
 
-    subtract () {
-        return this.firstNum - this.secondNum;
-    }
+currentNumber.forEach(button => {
+    button.addEventListener("click", () => {
+        calculator.handleNumber(button.textContent);
+        displayCurrentNumber.textContent = calculator.currentNum;
+    })
+});
 
-    multiply () {
-        return this.firstNum * this.secondNum;
-    }
+operatorChoice.forEach(button => {
+    button.addEventListener("click", () => {
+            calculator.handleOperator(button.textContent);
+            displayPastNumber.textContent = calculator.previusNum + " " + button.textContent;
+            displayCurrentNumber.textContent = calculator.currentNum;
+    })
+});
 
-    divide () {
-        if (this.secondNum !== 0){
-            return parseFloat((this.firstNum / this.secondNum).toFixed(6));
-        }
-        return "error";
-    }
-}
-
-/*let calculator = new Calculator("2", "4");
-
-console.log(calculator);
-console.log(calculator.add());
-console.log(calculator.subtract());
-console.log(calculator.multiply());
-console.log(calculator.divide());*/
-
+equal.addEventListener("click", () => {
+    const result = calculator.operate();
+    displayPastNumber.textContent = "";
+    displayCurrentNumber.textContent = result;
+    calculator.currentNum = result;
+});

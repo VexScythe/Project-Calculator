@@ -7,6 +7,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100vw;
+    height: 100vh;
 }
 
 .page {
@@ -35,6 +37,14 @@ body {
     flex-grow: 1;
     font-size: 20px;
     /* align-items: flex-end; */
+}
+
+.displaypast,
+.displaycurrent{
+    height: 25px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 5px;
 }
 
 .buttoncon {
