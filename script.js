@@ -2,6 +2,30 @@
     secondNum = "3",
     operator = "";*/
 
+class Operate {
+    constructor(calculator, userInput) {
+        this.calculator = calculator;
+        this.userInput = userInput;
+    }
+    
+    performOperation(operator) {
+        const input = this.userInput.getInput();
+        switch (operator) {
+            case '+':
+                return this.calculator.add(input);
+            case '-':
+                return this.calculator.subtract(input);
+            case 'x':
+                return this.calculator.multiply(input);
+            case '/':
+                return this.calculator.divide(input);
+            default:
+                return "Invalid operator";
+        }
+    }
+}
+    
+    
 class Calculator{
     constructor(firstNumber, secondNumber){
         this.firstNum = Number(firstNumber);
