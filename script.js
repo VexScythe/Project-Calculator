@@ -36,7 +36,7 @@ let calculator = {
     },
 
     handleNumber(num) {
-        if (calculator.currentNum.length <= 16){
+        if (calculator.currentNum.length <= 11){
             this.currentNum += num;
             console.log(calculator);
         }
