@@ -46,6 +46,7 @@ let calculator = {
         if (this.currentNum !== "") {
             if (this.previusNum !== "" && this.operator !== "") {
                 const result = this.operate();
+                this.operationList = [];
                 this.previusNum = result;
                 this.currentNum = "";
                 this.operationList.push(result);
@@ -103,4 +104,6 @@ equal.addEventListener("click", () => {
     displayCurrentNumber.textContent = result;
     calculator.currentNum = result.toString();
     calculator.operationList = [];
+    calculator.previusNum = "";
+    calculator.operationList.push(result);
 });
