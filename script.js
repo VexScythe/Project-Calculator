@@ -23,7 +23,7 @@ let calculator = {
                 return this.previusNum * this.currentNum;
                 break;
             case "/":
-                if (this.currentNum !== 0){
+                if (this.currentNum !== "0"){
                     return parseFloat((this.previusNum / this.currentNum).toFixed(6));
                 }else  return "error";
                 break;
@@ -38,17 +38,10 @@ let calculator = {
     },
 
     handleOperator(chooseOperator) {
-        //if(this.previusNum === ""){
-            this.operator = chooseOperator;
-            this.previusNum = this.currentNum;
-            this.currentNum = "";
-            console.log(calculator)
-        /*} else {
-            const result = this.operate();
-            this.previusNum = result;
-            this.currentNum = "";
-            console.log(result);
-        }*/ 
+        this.operator = chooseOperator;
+        this.previusNum = this.currentNum;
+        this.currentNum = "";
+        console.log(calculator);
     },
 };
 
@@ -75,11 +68,14 @@ decimal.addEventListener("click", () => {
 });
 
 clear.addEventListener("click", () => {
-    calculator.currentNum = "";
-    calculator.previusNum = "";
-    calculator.operator = "";
-    displayCurrentNumber.textContent = "";
-    displayPastNumber.textContent = "";
+    const confirmed = confirm("Are you sure you want to clear data?");
+    if (confirmed) {
+        calculator.currentNum = "";
+        calculator.previusNum = "";
+        calculator.operator = "";
+        displayCurrentNumber.textContent = "";
+        displayPastNumber.textContent = "";
+    }     
 });
 
 equal.addEventListener("click", () => {
