@@ -1,5 +1,7 @@
 const currentNumber = document.querySelectorAll("#num");
 const operatorChoice = document.querySelectorAll("#operator");
+const clear = document.querySelector("#clear");
+const decimal = document.querySelector("#decimal");
 const equal = document.querySelector("#equal");
 const displayCurrentNumber = document.querySelector(".displaycurrent");
 const displayPastNumber = document.querySelector(".displaypast");
@@ -23,8 +25,7 @@ let calculator = {
             case "/":
                 if (this.currentNum !== 0){
                     return parseFloat((this.previusNum / this.currentNum).toFixed(6));
-                }
-                return "error";
+                }else  return "error";
                 break;
             }
     },
@@ -37,10 +38,17 @@ let calculator = {
     },
 
     handleOperator(chooseOperator) {
-        this.operator = chooseOperator;
-        this.previusNum = this.currentNum;
-        this.currentNum = "";
-        console.log(calculator)
+        //if(this.previusNum === ""){
+            this.operator = chooseOperator;
+            this.previusNum = this.currentNum;
+            this.currentNum = "";
+            console.log(calculator)
+        /*} else {
+            const result = this.operate();
+            this.previusNum = result;
+            this.currentNum = "";
+            console.log(result);
+        }*/ 
     },
 };
 
@@ -57,6 +65,21 @@ operatorChoice.forEach(button => {
             displayPastNumber.textContent = calculator.previusNum + " " + button.textContent;
             displayCurrentNumber.textContent = calculator.currentNum;
     })
+});
+
+decimal.addEventListener("click", () => {
+    if(!calculator.currentNum.includes(".")){
+        calculator.currentNum += ".";
+        displayCurrentNumber.textContent = calculator.currentNum;
+    }
+});
+
+clear.addEventListener("click", () => {
+    calculator.currentNum = "";
+    calculator.previusNum = "";
+    calculator.operator = "";
+    displayCurrentNumber.textContent = "";
+    displayPastNumber.textContent = "";
 });
 
 equal.addEventListener("click", () => {
