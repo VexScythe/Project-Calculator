@@ -10,24 +10,29 @@ let calculator = {
     currentNum: "",
     previusNum: "",
     operator: "",
+    operationList: [],
     
     operate() {
-        switch(this.operator){
-            case "+": 
-                return Number(this.previusNum) + Number(this.currentNum);
+        let result = parseFloat(this.previusNum);
+        switch(this.operator) {
+            case '+':
+                result += parseFloat(this.currentNum);
                 break;
-            case "-":
-                return this.previusNum - this.currentNum;
+            case '-':
+                result -= parseFloat(this.currentNum);
                 break;
-            case "x":
-                return this.previusNum * this.currentNum;
+            case 'x':
+                result *= parseFloat(this.currentNum);
                 break;
-            case "/":
-                if (this.currentNum !== "0"){
-                    return parseFloat((this.previusNum / this.currentNum).toFixed(6));
-                }else  return "error";
+            case '/':
+                if (parseFloat(this.currentNum) !== 0) {
+                    result /= parseFloat(this.currentNum);
+                } else {
+                    return "Error";
+                }
                 break;
-            }
+        }
+        return result;
     },
 
     handleNumber(num) {
@@ -38,11 +43,22 @@ let calculator = {
     },
 
     handleOperator(chooseOperator) {
+        if (this.currentNum !== "") {
+            if (this.previusNum !== "" && this.operator !== "") {
+                const result = this.operate();
+                this.previusNum = result;
+                this.currentNum = "";
+                this.operationList.push(result);
+            } else {
+                this.previusNum = this.currentNum;
+                this.currentNum = "";
+                this.operationList.push(this.previusNum);
+            }
+            this.operationList.push(chooseOperator);
+        }
         this.operator = chooseOperator;
-        this.previusNum = this.currentNum;
-        this.currentNum = "";
-        console.log(calculator);
-    },
+        displayPastNumber.textContent = this.operationList.join(' ') + " ";
+    },  
 };
 
 currentNumber.forEach(button => {
@@ -79,8 +95,12 @@ clear.addEventListener("click", () => {
 });
 
 equal.addEventListener("click", () => {
+    if (calculator.currentNum !== "") {
+        calculator.operationList.push(calculator.currentNum);
+    }
     const result = calculator.operate();
     displayPastNumber.textContent = "";
     displayCurrentNumber.textContent = result;
-    calculator.currentNum = result;
+    calculator.currentNum = result.toString();
+    calculator.operationList = [];
 });
